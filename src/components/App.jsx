@@ -1,39 +1,54 @@
- import React, { Component } from 'react';
+ import React from 'react';
  import FeedbackOptions from './FeedbackOptions';
  import Notification from './Notification';
  import Section from './Section'
  import Statistics from './Statistics';
+ import { useState } from 'react';
 
 
 
-export class App extends Component {
-    state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  }
+ export function App () {
 
-  countTotalFeedback = () => {
-  const totalFeedback = this.state.good + this.state.neutral + this.state.bad;
-  return totalFeedback;
+  const [good, setGood] = useState (0);
+  const [neutral, setNeutral] = useState (0);
+  const [bad, setBad] = useState (0);
+
+
+  const countTotalFeedback = () => {
+    const totalFeedback = good + neutral +bad;
+    return totalFeedback;
   };
 
-  countPositiveFeedbackPercentage = () => {
-    const positiveFeedbackPercentage =  Math.round((this.state.good * 100) / this.countTotalFeedback());
+  const countPositiveFeedbackPercentage = () => {
+    const positiveFeedbackPercentage =  Math.round((good * 100) / countTotalFeedback());
     return positiveFeedbackPercentage;
   };
    
-  handleClick = e => {
+  const handleClick = e => {
     const variety = e.target.name;
-    this.setState(prevState => ({[variety]: prevState[variety] + 1}));
+    switch (variety) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+
+      default:
+        break;
+    }
   };
 
-render() {
-  const options= Object.keys(this.state);
-  const onLeaveFeedback = this.handleClick;
-  const { good, neutral, bad, }  = this.state;
-  const total = this.countTotalFeedback();
-  const positivePercentage= this.countPositiveFeedbackPercentage();
+
+  const options = ['good', 'neutral', 'bad'];
+  const onLeaveFeedback = handleClick;
+  const total = countTotalFeedback();
+  const positivePercentage= countPositiveFeedbackPercentage();
   return (
     <>
      <Section 
@@ -60,5 +75,6 @@ render() {
       )}
     </Section>
     </>
-  );}
-};
+  );
+}
+
