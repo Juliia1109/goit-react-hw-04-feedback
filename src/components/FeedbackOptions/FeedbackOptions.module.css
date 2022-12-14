@@ -1,0 +1,13 @@
+.list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 15px;
+  margin-right: 50px;
+  justify-content: flex-end;
+}
+
+.buttonList {
+  color: blue;
+  border-radius: 10%;
+}
